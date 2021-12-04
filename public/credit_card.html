@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-180280852-1');
+  </script>
+  <title>CSE 543 Credit Cart Attack</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="javascripts/jszip.min.js"></script>
+  <script type="text/javascript" src="javascripts/jszip-utils.min.js"></script>
+  <link rel="stylesheet" href="credit_card.css">
+  </head>
+  <body>
+    <h1 style="color:#070abe;"> CSE 543 Attack</h1>
+    <h2 id="result"></h2>
+      <div id="block_container">
+        <div>
+            Credit Card Name <input type="text" id="cardname" placeholder="cardname" onclick="changeElements()">
+            <button class="button" onclick="revealDropdowns()">Reveal unvisible fields</button>
+        </div>
+        <div id="cardmonth">
+            Credit Card Expiry Month<input type="text" name="ccmonth" id="ccmonth" placeholder="ccmonth">
+      </div>
+      </div>
+      <div id= "hidden_info">
+
+      </div>
+
+  </body>
+  <script src="credit_card.js"></script>
+</html>
